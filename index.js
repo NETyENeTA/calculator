@@ -48,7 +48,13 @@ class Cursor {
     });
 
     input.answer.root.addEventListener("mouseup", (e) => {
-      if (e.clientX - clickX > 50) input.answer.del(1);
+      if (e.clientX - clickX > 50) {
+        input.answer.del(1);
+        if (input.answer.get() == "0")
+          input.divideButtons.forEach((el) => {
+            el.disabled = true;
+          });
+      }
       if (e.clientX - clickX < -50)
         navigator.clipboard.writeText(input.answer.get());
     });
@@ -320,6 +326,44 @@ function powing() {
   input.answer.set(0);
 }
 
+function ctg(value) {
+  return 1 / Math.tan(value);
+}
+function actg(value) {
+  return 1 / Math.atan(value);
+}
+
+function trigonometry(event) {
+  let namefunction = this.buttonTitle;
+  let trigonomFunction;
+
+  switch (this.buttonTitle) {
+    case "tan":
+    case "cos":
+    case "sin":
+    case "arcsin":
+    case "arccos":
+    case "arctan":
+      trigonomFunction = Math[this.buttonTitle.replace("rc", "")];
+      break;
+
+    case "ctg":
+      trigonomFunction = ctg;
+      break;
+
+    case "arcctg":
+      trigonomFunction = actg;
+      break;
+
+    default:
+      namefunction = null;
+      break;
+  }
+
+  input.expression.set(`${namefunction}(${input.answer.get()})=`);
+  input.answer.set(trigonomFunction(Number(input.answer.get())));
+}
+
 /////////////////////////////////////
 // Main
 document.querySelectorAll("button").forEach((button) => {
@@ -334,7 +378,7 @@ document.querySelectorAll("button").forEach((button) => {
     return;
   }
 
-  if (button.textContent.contains(["+", "-", "×", "÷"])) {
+  if (button.textContent.contains("+-×÷")) {
     button.addEventListener("click", {
       handleEvent: sign,
       buttonTitle: button.textContent,
@@ -342,6 +386,14 @@ document.querySelectorAll("button").forEach((button) => {
 
     if (button.textContent == "÷")
       button.addEventListener("click", divideCheck);
+  }
+
+  if (button.textContent.contains("snt")) {
+    button.addEventListener("click", {
+      handleEvent: trigonometry,
+      buttonTitle: button.textContent.toLowerCase(),
+    });
+    return;
   }
 
   switch (button.textContent.toLowerCase()) {

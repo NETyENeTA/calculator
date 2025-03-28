@@ -6,6 +6,8 @@ main {
   display: flex;
   align-items: center;
 
+  margin-top: 120px;
+
   justify-content: space-around;
 }
 
@@ -46,16 +48,21 @@ main {
   font-weight: 500;
 }
 
-.calculator {
+.block {
   position: relative;
 
   display: flex;
-  flex-direction: column;
   background-color: #e9c46a;
+
   width: 300px;
-  padding: 20px 40px 80px;
 
   box-shadow: #2a9d8f -10px -20px, #264653 10px 20px;
+}
+
+.calculator {
+  flex-direction: column;
+
+  padding: 20px 40px 80px;
 
   & .input {
     text-align: right;
@@ -133,19 +140,21 @@ main {
   }
 }
 
-.pow {
+.content-left {
   display: flex;
+  flex-direction: column;
+
+  height: 400px;
+
+  justify-content: space-around;
+}
+
+.pow {
   justify-content: space-around;
   align-items: center;
 
-  position: relative;
-
-  background-color: #e9c46a;
-  width: 300px;
   height: 10px;
   padding: 40px 20px;
-
-  box-shadow: #2a9d8f -10px -20px, #264653 10px 20px;
 
   & input {
     width: 50px;
@@ -160,11 +169,62 @@ main {
 
     width: 120px;
     height: 20px;
-
   }
 
   & button {
+    height: 30px;
+    width: 80px;
 
+    border: none;
+
+    box-shadow: #e76f51 2px 2px 0px 2px;
+    background-color: #f4a261;
+
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      font-size: 20px;
+      font-weight: 800;
+      background-color: #e76f51;
+    }
+
+    &:active {
+      font-size: 13px;
+      background-color: #c55e44;
+      box-shadow: #c55e44 2px 2px 0px 2px;
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    &:disabled {
+      background-color: #c55e44;
+      box-shadow: #c55e44 2px 2px 0px 2px;
+    }
+  }
+}
+
+.tigry {
+  flex-direction: column;
+  justify-content: center;
+
+  gap: 30px;
+
+  height: 130px;
+  width: 400px;
+
+  & div {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    height: 20px;
+  }
+
+  & button {
     height: 30px;
     width: 80px;
 
