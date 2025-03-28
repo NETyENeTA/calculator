@@ -84,8 +84,6 @@ class Input {
   }
 
   _replaces(olds, _news) {
-    console.log("aaa");
-
     let text = this.get();
     for (let i = 0; i < olds.length; i++)
       text = text.replace(olds[i], _news[i]);
@@ -127,7 +125,10 @@ const input = {
   isEnded: false,
   answer: new Input(document.getElementById("answer")),
   expression: new Input(document.getElementById("expression")),
-  equalButton: document.getElementById("equal"),
+  divideButtons: [
+    document.getElementById("divide"),
+    document.getElementById("equal"),
+  ],
 };
 
 input.answer.set(0);
@@ -163,7 +164,9 @@ function clear() {
 }
 
 function typing(event) {
-  input.equalButton.disabled = false;
+  input.divideButtons.forEach((el) => {
+    el.disabled = false;
+  });
   if (input.isEnded) clear();
 
   if (input.answer.get() == "0" && this.buttonTitle.includes("0")) return;
@@ -174,6 +177,10 @@ function typing(event) {
 }
 
 function sign(event) {
+  input.divideButtons.forEach((el) => {
+    el.disabled = false;
+  });
+
   if (input.answer.length() == 0) return;
 
   if (input.expression.includes("=")) {
@@ -198,7 +205,7 @@ function calc(event) {
   input.expression.add(input.answer);
   // input.expression.replaces("×÷", "*/");
   // console.log(input.expression._replaces("×÷", "*/"));
-  input.expression.replace("--", "+")
+  input.expression.replace("--", "+");
   input.answer.set(eval(input.expression._replaces("×÷", "*/")));
   input.expression.add("=");
   input.isEnded = true;
@@ -211,7 +218,6 @@ function doting() {
 }
 
 function plusMinus() {
-
   if (input.answer.get() == "0") return;
 
   if (input.answer.includes("-")) {
@@ -223,7 +229,10 @@ function plusMinus() {
 }
 
 function divideCheck() {
-  input.equalButton.disabled = true;
+  if (input.answer.get() == "0")
+    input.divideButtons.forEach((el) => {
+      el.disabled = true;
+    });
 }
 
 /////////////////////////////////////
@@ -254,6 +263,10 @@ document.querySelectorAll("button").forEach((button) => {
     case "c":
       button.addEventListener("click", () => {
         input.answer.set(0);
+        if (input.expression.includes("÷"))
+          input.divideButtons.forEach((el) => {
+            el.disabled = true;
+          });
       });
       break;
 

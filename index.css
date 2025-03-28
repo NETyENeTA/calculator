@@ -75,6 +75,11 @@ main {
           font-weight: 900px;
         }
 
+        &:disabled {
+          background-color: #c55e44;
+          box-shadow: #c55e44 2px 2px 0px 2px;
+        }
+
       }
 
     }
