@@ -204,6 +204,7 @@ const input = {
   isEnded: false,
   answer: new Input(document.getElementById("answer")),
   expression: new Input(document.getElementById("expression")),
+  pow: new Input(document.getElementById("pow")),
   divideButtons: [
     document.getElementById("divide"),
     document.getElementById("equal"),
@@ -211,6 +212,7 @@ const input = {
 };
 
 input.answer.set(0);
+input.pow.set(0);
 
 let numbers = {
   9: "0 10px 0 0",
@@ -302,6 +304,22 @@ function divideCheck() {
     });
 }
 
+function pow(expression, separator = "^") {
+  return Math.pow(...expression.split(separator).map(Number));
+}
+
+function powing() {
+  if (input.pow.get() == "0" || input.pow.includes("=")) {
+    input.pow.set(input.answer.get());
+    input.answer.set(0);
+    return;
+  }
+
+  input.pow.add("^" + input.answer.get());
+  input.pow.add("=" + pow(input.pow.get()));
+  input.answer.set(0);
+}
+
 /////////////////////////////////////
 // Main
 document.querySelectorAll("button").forEach((button) => {
@@ -351,6 +369,10 @@ document.querySelectorAll("button").forEach((button) => {
 
     case "=":
       button.addEventListener("click", calc);
+      break;
+
+    case "puff":
+      button.addEventListener("click", powing);
       break;
   }
 });

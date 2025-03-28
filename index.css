@@ -4,8 +4,9 @@
 
 main {
   display: flex;
-  flex-direction: column;
   align-items: center;
+
+  justify-content: space-around;
 }
 
 #cursor,
@@ -21,6 +22,8 @@ main {
   height: 10px;
 
   pointer-events: none;
+
+  z-index: 4;
 }
 
 #cursor-1 {
@@ -29,7 +32,23 @@ main {
   border: none;
 }
 
+.name {
+  position: absolute;
+
+  right: 20px;
+  bottom: -30px;
+
+  color: #264653;
+  background-color: #2a9d8f;
+
+  padding: 2px 5px;
+  font-size: 20px;
+  font-weight: 500;
+}
+
 .calculator {
+  position: relative;
+
   display: flex;
   flex-direction: column;
   background-color: #e9c46a;
@@ -43,14 +62,14 @@ main {
     background-color: #f4a261;
     border: 5px #e76f51 solid;
 
+    height: 20px;
+
     &:nth-child(1) {
       border-bottom: none;
     }
     &:nth-child(2) {
       border-top: none;
     }
-
-    height: 20px;
 
     &:nth-child(2) {
       font-size: 20px;
@@ -83,7 +102,7 @@ main {
         &:hover {
           background-color: #e76f51;
           font-size: 20px;
-          font-weight: 900px;
+          font-weight: 900;
         }
 
         &:active {
@@ -96,7 +115,7 @@ main {
           outline: none;
 
           font-size: 18px;
-          font-weight: 900px;
+          font-weight: 900;
         }
 
         &:disabled {
@@ -110,6 +129,71 @@ main {
   & .number {
     &:hover {
       border-radius: 10px;
+    }
+  }
+}
+
+.pow {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  position: relative;
+
+  background-color: #e9c46a;
+  width: 300px;
+  height: 10px;
+  padding: 40px 20px;
+
+  box-shadow: #2a9d8f -10px -20px, #264653 10px 20px;
+
+  & input {
+    width: 50px;
+    background-color: #f4a261;
+    border: 5px #e76f51 solid;
+  }
+
+  & .input {
+    text-align: right;
+    background-color: #f4a261;
+    border: 5px #e76f51 solid;
+
+    width: 120px;
+    height: 20px;
+
+  }
+
+  & button {
+
+    height: 30px;
+    width: 80px;
+
+    border: none;
+
+    box-shadow: #e76f51 2px 2px 0px 2px;
+    background-color: #f4a261;
+
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      font-size: 20px;
+      font-weight: 800;
+      background-color: #e76f51;
+    }
+
+    &:active {
+      font-size: 13px;
+      background-color: #c55e44;
+      box-shadow: #c55e44 2px 2px 0px 2px;
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    &:disabled {
+      background-color: #c55e44;
+      box-shadow: #c55e44 2px 2px 0px 2px;
     }
   }
 }
