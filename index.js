@@ -21,9 +21,88 @@ String.prototype.replaces = function (olds, _news) {
 /////////////////////////////////////
 // Classes
 
+class Cursor {
+  constructor(x, y) {
+    this.root = document.getElementById("cursor");
+    this.assistant = document.getElementById("cursor-1");
+
+    this.offset = { x: x, y: y };
+
+    this.#init();
+  }
+
+  style(key, value) {
+    this.root.style[key] = value;
+  }
+
+  #init() {
+    this.save = {};
+    this.save.borderRadius = this.root.style.borderRadius;
+    this.save.colorAssistant = this.assistant.style.backgroundColor;
+
+    /////
+
+    let clickX, clientyX;
+    input.answer.root.addEventListener("mousedown", (e) => {
+      clickX = e.clientX;
+    });
+
+    input.answer.root.addEventListener("mouseup", (e) => {
+      if (e.clientX - clickX > 50) input.answer.del(1);
+      if (e.clientX - clickX < -50)
+        navigator.clipboard.writeText(input.answer.get());
+    });
+
+    /////
+
+    document.body.addEventListener("mousemove", (e) => {
+      this.root.style.left = `${e.clientX - this.offset.x}px`;
+      this.root.style.top = `${e.clientY - this.offset.y}px`;
+    });
+
+    document.body.addEventListener("mouseup", (e) => {
+      this.assistant.style.backgroundColor = "transparent";
+    });
+
+    let calculator = document.getElementById("calc");
+
+    calculator.addEventListener("mouseenter", (e) => {
+      this.root.style.borderRadius = "0px";
+    });
+
+    calculator.addEventListener("mouseleave", (e) => {
+      this.root.style.borderRadius = this.save.borderRadius;
+    });
+
+    input.answer.root.addEventListener("mousemove", (e) => {
+      if (this.assistant.style.backgroundColor != "transparent")
+        this.assistant.style.backgroundColor =
+          e.clientX - clickX > 50
+            ? "red"
+            : e.clientX - clickX > -50
+            ? "blue"
+            : this.save.colorAssistant;
+    });
+
+    input.answer.root.addEventListener("mousedown", (e) => {
+      this.assistant.style.left = `${e.clientX - this.offset.x + 2}px`;
+      this.assistant.style.top = `${e.clientY - this.offset.y + 2}px`;
+      this.assistant.style.backgroundColor = this.save.colorAssistant;
+    });
+  }
+}
+
 class Input {
   constructor(root) {
     this.root = root;
+
+    root.onmousedown = () => {
+      return false;
+    };
+
+    root.onclick = () => {
+      return true;
+    };
   }
 
   length() {
@@ -133,26 +212,14 @@ const input = {
 
 input.answer.set(0);
 
-let TimerId, clickX, clientyX;
-input.answer.root.addEventListener("mousedown", (e) => {
-  // TimerId = setTimeout(, 3000)
-  clickX = e.clientX;
-});
-
-input.answer.root.addEventListener("mouseup", (e) => {
-  if (e.clientX - clickX > 50) input.answer.del(1);
-});
-
-// document.getElementById().addEventListener("mouseup", (e) => {
-//   e.clientX;
-// });
-
 let numbers = {
   9: "0 10px 0 0",
   8: "10px 0 0 0",
   3: "0 0 0 10px",
   1: "0 0 10px 0",
 };
+
+const cursor = new Cursor(5, 5);
 
 /////////////////////////////////////
 // Functions
