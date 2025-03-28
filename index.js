@@ -267,6 +267,8 @@ function sign(event) {
 
   let { contain, key } = input.expression.contain(["+", "-", "×", "÷"]);
 
+  if (key === this.buttonTitle) calc();
+
   if (contain) input.expression.replace(key, this.buttonTitle);
   else {
     input.expression.set(input.answer._add(this.buttonTitle));
@@ -334,6 +336,8 @@ function actg(value) {
 }
 
 function trigonometry(event) {
+  input.isEnded = true;
+
   let namefunction = this.buttonTitle;
   let trigonomFunction;
 

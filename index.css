@@ -2,6 +2,13 @@
   cursor: none;
 }
 
+.darked {
+  transition: all 0.4s ease-in-out;
+
+  background-color: gray;
+
+}
+
 main {
   display: flex;
   align-items: center;
